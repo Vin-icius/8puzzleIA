@@ -1,20 +1,24 @@
 export function aStar(initialState, goalState) {
     const openSet = [{ state: initialState, path: [], cost: 0 }];
     const visited = new Set();
-    visited.add(initialState.toString());
+    visited.add(initialState.join(",")); // Usando string padronizada para garantir unicidade
 
     while (openSet.length > 0) {
+        // Ordena pelo menor custo f(n) = g(n) + h(n)
         openSet.sort((a, b) => (a.cost + heuristic(a.state, goalState)) - (b.cost + heuristic(b.state, goalState)));
-        const { state, path, cost } = openSet.shift();
+        const { state, path, cost } = openSet.shift(); // Pega o nó com menor custo
 
-        if (state.toString() === goalState.toString()) {
+        // Se o estado atual for o objetivo, retorna o caminho
+        if (arraysEqual(state, goalState)) {
             return { solution: path, nodesVisited: visited.size };
         }
 
         for (let move of getValidMoves(state)) {
             let newState = applyMove(state, move);
-            if (!visited.has(newState.toString())) {
-                visited.add(newState.toString());
+            let stateKey = newState.join(",");
+
+            if (!visited.has(stateKey)) {
+                visited.add(stateKey);
                 openSet.push({ state: newState, path: [...path, move], cost: cost + 1 });
             }
         }
@@ -22,6 +26,7 @@ export function aStar(initialState, goalState) {
 
     return { solution: null, nodesVisited: visited.size };
 }
+
 
 function heuristic(state, goalState) {
     let distance = 0;
@@ -35,6 +40,7 @@ function heuristic(state, goalState) {
     return distance;
 }
 
+
 function getValidMoves(state) {
     const index = state.indexOf(0);
     const moves = [];
@@ -47,6 +53,7 @@ function getValidMoves(state) {
     return moves;
 }
 
+
 function applyMove(state, move) {
     const newState = [...state];
     const index = newState.indexOf(0);
@@ -55,4 +62,9 @@ function applyMove(state, move) {
 
     [newState[index], newState[newIndex]] = [newState[newIndex], newState[index]];
     return newState;
+}
+
+
+function arraysEqual(a, b) {
+    return a.length === b.length && a.every((val, index) => val === b[index]);
 }

@@ -1,11 +1,13 @@
 const express = require("express");
 const { bfs } = require("../algoritmos/bfs");
-const { astar } = require("../algoritmos/aStar");
+const { aStar } = require("../algoritmos/aStar");
 const { embaralharPuzzle } = require("../algoritmos/embaralharPuzzle");
 
 const router = express.Router();
 
 router.post("/solve", (req, res) => {
+    console.log("Recebendo requisição:", req.body);
+
     const { initialState, goalState, algorithm } = req.body;
 
     if (!initialState || !goalState || !algorithm) {
@@ -20,8 +22,8 @@ router.post("/solve", (req, res) => {
 
     if (algorithm === "bfs") {
         ({ solution, nodesVisited } = bfs(initialState, goalState));
-    } else if (algorithm === "astar") {
-        ({ solution, nodesVisited } = astar(initialState, goalState));
+    } else if (algorithm === "aStar") {
+        ({ solution, nodesVisited } = aStar(initialState, goalState)); 
     } else {
         return res.status(400).json({ error: "Algoritmo inválido" });
     }
@@ -31,9 +33,11 @@ router.post("/solve", (req, res) => {
     res.json({ solution, nodesVisited, executionTime });
 });
 
+
+
 router.get("/embaralhar", (req, res) => {
-    const goalState = [1, 2, 3, 4, 5, 6, 7, 8, 0]; // Estado final correto
-    const shuffledState = embaralharPuzzle(goalState, 100); // Embaralha com 100 movimentos
+    const goalState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+    const shuffledState = embaralharPuzzle(goalState, 100);
     res.json({ shuffledState });
 });
 
