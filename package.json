@@ -1,0 +1,21 @@
+{
+  "name": "projia",
+  "version": "1.0.0",
+  "description": "Projeto do 8puzzle para trabalho bimestral",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "Não configurado"
+  },
+  "repository": {
+    "type": "git",
+    "start":"node index.js",
+    "url": "git+https://github.com/Vin-icius/8puzzleIA.git"
+  },
+  "author": "Vinícius Dias",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vin-icius/8puzzleIA/issues"
+  },
+  "homepage": "https://github.com/Vin-icius/8puzzleIA#readme"
+}
