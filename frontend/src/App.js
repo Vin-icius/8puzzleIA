@@ -9,13 +9,6 @@ const App = () => {
     const [solution, setSolution] = useState([]);
     const [currentState, setCurrentState] = useState(initialState);
 
-    const handleSolve = async (algorithm) => {
-        const result = await solvePuzzle(initialState, goalState, algorithm);
-        setSolution(result || []);
-        playSolution(result); // Chamando playSolution corretamente
-    };
-
-    // ✅ Adicionando a função playSolution
     const playSolution = (moves) => {
         if (!moves || moves.length === 0) return;
 
@@ -39,6 +32,19 @@ const App = () => {
             setCurrentState([...state]);
         }, 500);
     };
+
+    const handleSolve = async (algorithm) => {
+        const result = await solvePuzzle(initialState, goalState, algorithm);
+        
+        if (!result) {
+            console.error("Erro: Nenhuma solução recebida.");
+            return;
+        }
+    
+        setSolution(result);
+        playSolution(result);
+    };
+    
 
     const handleShuffle = (newState) => {
         setInitialState(newState);

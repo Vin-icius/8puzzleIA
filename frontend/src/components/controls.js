@@ -14,7 +14,7 @@ const Controls = ({ onSolve, onShuffle }) => {
             <label>Escolha um algoritmo:</label>
             <select value={algorithm} onChange={(e) => setAlgorithm(e.target.value)}>
                 <option value="bfs">BFS (Busca em Largura)</option>
-                <option value="astar">A* (A Estrela)</option>
+                <option value="aStar">A* (A Estrela)</option>
             </select>
             <button onClick={() => onSolve(algorithm)}>Resolver</button>
             <button onClick={handleShuffle}>Embaralhar</button>
